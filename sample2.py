@@ -1,15 +1,18 @@
+import csv
 import random
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget,
-                             QLabel, QPushButton, QHBoxLayout, QVBoxLayout)
+from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QTimer
+from model import Player
 
 
 class Game(QWidget):
     def __init__(self):
         super().__init__()
         self.counter = 0
+
+        self.load_data()
         self.init_ui()
         self.num = list(range(10))
 
@@ -39,10 +42,11 @@ class Game(QWidget):
         vbox_operate.addLayout(hbox_operate)
         vbox_operate.addLayout(hbox_operate)
 
-        self.label_result = QLabel('', self)
+        self.label_result = QTextEdit(self)
         self.label_count = QLabel(f'已选出{self.counter}位', self)
-        self.label_style(self.label_result)
         self.label_style(self.label_count)
+        self.label_result.setReadOnly(True)
+        self.label_result.setFont(QFont("微软雅黑", 20))
 
         vbox_result = QVBoxLayout()
         vbox_result.addWidget(self.label_result)
@@ -94,6 +98,15 @@ class Game(QWidget):
         label.setAlignment(Qt.AlignCenter)
         label.setFont(QFont("微软雅黑", 20, QFont.Bold))
 
+    def load_data(self):
+        with open('namelist.csv', 'r', encoding='utf-8-sig') as f:
+            lines = csv.reader(f)
+            self.namelist = []
+            for line in lines:
+                print(line)
+                self.namelist.append(Player(line[0], line[1], line[2]))
+            print(self.namelist)
+
     def on_click(self):
         if self.start_button.text() == '开始':
             self.start_button.setText('抽取')
@@ -102,22 +115,31 @@ class Game(QWidget):
             self.timer.start(100)
         elif self.start_button.text() == '抽取':
             self.counter += 1
-            text = self.label_result.text()
+            text = self.label_result.toPlainText()
             text = '\n'.join([text, self.label_id.text()])
-            self.label_result.setText(text)
+            self.label_result.setPlainText(text)
             for i, j in enumerate(self.num):
                 if str(j) == self.label_id.text():
                     self.num.pop(i)
+
             self.label_count.setText(f'已选出{self.counter}位')
 
     def set_zero(self):
         self.counter = 0
         self.start_button.setText('开始')
         self.label_count.setText(f'已选出{self.counter}位')
+        self.label_result.setText('')
+        self.timer.stop()
+
+        self.label_id.setText('')
+        self.label_name.setText('')
+        self.label_depart.setText('')
 
     def setname(self):
-        num = self.num[random.randint(0, len(self.num) - 1)]
-        self.label_id.setText(f'{num}')
+        num = self.namelist[random.randint(0, len(self.namelist) - 1)]
+        self.label_id.setText(f'{num.id}')
+        self.label_name.setText(f'{num.name}')
+        self.label_depart.setText(f'{num.depart}')
 
 
 if __name__ == '__main__':
