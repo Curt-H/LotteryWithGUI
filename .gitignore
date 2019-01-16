@@ -114,3 +114,5 @@ cache/
 cache-shiguang/
 bcy/
 
+*.json
+*.csv
