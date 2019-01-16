@@ -76,13 +76,13 @@ class Game(QWidget):
 
         for x in range(len(self.labels)):
             for y in range(len(self.labels[x])):
-                grid.addWidget(self.labels[x][y], x, y, 1, 1)
+                grid.addWidget(self.labels[x][y], x, y, 1, y + 1)
 
         grid.addWidget(self.start_button, 3, 0, 1, 1)
         grid.addWidget(self.stop_button, 3, 1, 1, 1)
         grid.addWidget(self.save_button, 3, 2, 1, 1)
 
-        grid.addWidget(self.mtext_result, 0, 2, 3, 3)
+        grid.addWidget(self.mtext_result, 0, 3, 3, 4)
         grid.addWidget(self.label_count, 3, 4, 1, 1)
 
     def init_style(self):
@@ -123,11 +123,11 @@ class Game(QWidget):
             lines = csv.reader(f)
             self.namelist = []
             for line in lines:
-                log(line)
-                log(len(line))
+                # log(line)
+                # log(len(line))
                 if not (len(line) > 3 and line[-1] != ''):
                     self.namelist.append(Player(line[0], line[1], line[2]))
-            print(self.namelist)
+            # print(self.namelist)
 
     def on_click(self):
         if self.start_button.text() == '开始':
