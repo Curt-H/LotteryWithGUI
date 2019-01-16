@@ -91,30 +91,31 @@ class Game(QWidget):
 
     def init_style(self):
         self.setStyleSheet('''
+                    QWidget{
+                        background-color:white;
+                        border-radius:10px;
+                        }
                     QPushButton{
-                        color:black
+                        color:black;
+                        background-color:white;
+                        border:1px solid;
                         }
                     QPushButton:hover{
-                        background-color:lightgreen
+                        background-color:#0fa;
                         }
                     QPushButton{
-                        background-color:lightblue
-                        }
-                    QPushButton{
-                        border:2px
                         }
                     QPushButton{
                         border-radius:10px
                         }
-                    QWidget{
-                        background-color:white;
-                        border:1px solid darkGray;
-                        border-radius:10px;
-                        }
                     QPushButton{
                         padding:2px 4px
                         }
-      
+                    QTextEdit{
+                        border: 1px solid;
+                        border-radius:10px;
+                        background-color:lightblue;
+                        }
                     ''')
 
     def bind_events(self):
@@ -196,7 +197,6 @@ class Game(QWidget):
         msg = QMessageBox.question(self, "警告", "重载数据后, 抽奖必须重新开始, 确认重载?", QMessageBox.Yes | QMessageBox.No,
                                    QMessageBox.No)  # 这里是固定格式，yes/no不能动
         if msg == QMessageBox.Yes:
-            self.namelist = []
             self.load_data()
             self.set_zero()
 
