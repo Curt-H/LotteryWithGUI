@@ -1,6 +1,8 @@
 import csv
 import random
 import sys
+import time
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QTimer
@@ -77,13 +79,15 @@ class Game(QWidget):
 
         grid.addWidget(self.start_button, 3, 0, 1, 1)
         grid.addWidget(self.stop_button, 3, 1, 1, 1)
+        grid.addWidget(self.save_button, 3, 2, 1, 1)
 
         grid.addWidget(self.mtext_result, 0, 2, 3, 3)
-        grid.addWidget(self.label_count, 3, 2, 1, 3)
+        grid.addWidget(self.label_count, 3, 4, 1, 1)
 
     def bind_events(self):
         self.start_button.clicked.connect(self.on_click)
         self.stop_button.clicked.connect(self.set_zero)
+        self.save_button.clicked.connect(self.save_result)
 
     def load_data(self):
         with open('namelist.csv', 'r', encoding='utf-8-sig') as f:
@@ -105,7 +109,7 @@ class Game(QWidget):
 
             text = self.mtext_result.toPlainText()
             infor_labels = [self.label_id.text(), self.label_name.text(), self.label_depart.text()]
-            text += '\t'.join(infor_labels) + '\n'
+            text = '\t'.join(infor_labels) + '\n' + text
             winner = infor_labels[0]
             log(text, winner)
             self.mtext_result.setPlainText(text)
@@ -114,6 +118,14 @@ class Game(QWidget):
             for p in self.namelist:
                 if p.id == winner:
                     self.namelist.pop(self.namelist.index(p))
+
+    def save_result(self):
+        fn = str(time.time()) + '.csv'
+        with open(fn, 'w', encoding='utf-8-sig') as f:
+            result = self.mtext_result.toPlainText()
+            result = result.replace('\t', ',')
+            f.write(result)
+        log('Successfully import')
 
     def set_zero(self):
         self.counter = 0
