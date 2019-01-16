@@ -114,3 +114,6 @@ cache/
 cache-shiguang/
 bcy/
 
+.idea/workspace.xml
+.idea/misc.xml
+.idea/LotteryWithGUI.iml

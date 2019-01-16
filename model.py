@@ -3,4 +3,5 @@ class Player(object):
         self.id = id
         self.name = name
         self.depart = depart
+        self.win = False
 
