@@ -92,16 +92,16 @@ class Game(QWidget):
     def init_style(self):
         self.setStyleSheet('''
                     QWidget{
-                        background-color:white;
+                        background-color:rgb(61, 79, 93);
                         border-radius:10px;
                         }
                     QPushButton{
-                        color:black;
-                        background-color:white;
-                        border:1px solid;
+                        color:white;
+                        background-color:rgb(61, 79, 93);
+                        border:1px solid white;
                         }
                     QPushButton:hover{
-                        background-color:#0fa;
+                        background-color:#08c;
                         }
                     QPushButton{
                         }
@@ -114,13 +114,16 @@ class Game(QWidget):
                     QTextEdit{
                         border: 1px solid;
                         border-radius:10px;
-                        background-color:lightblue;
+                        background-color:white;
+                        }
+                    QLabel{
+                        color:white;
                         }
                     ''')
 
     def bind_events(self):
         self.start_button.clicked.connect(self.on_click)
-        self.stop_button.clicked.connect(self.set_zero)
+        self.stop_button.clicked.connect(self.reset)
         self.save_button.clicked.connect(self.save_result)
         self.reload_button.clicked.connect(self.reload)
 
@@ -169,12 +172,15 @@ class Game(QWidget):
             f.write(result)
         log('Successfully import')
 
+    def reset(self):
+        self.set_zero()
+        self.timer.stop()
+
     def set_zero(self):
         self.counter = 0
         self.start_button.setText('开始')
         self.label_count.setText(f'已选出{self.counter}位')
         self.mtext_result.setText('')
-        self.timer.stop()
 
         self.label_id.setText('')
         self.label_name.setText('')
