@@ -26,6 +26,7 @@ class Game(QWidget):
 
         self.init_widgets()
         self.init_grid()
+        self.init_style()
 
         self.bind_events()
 
@@ -83,6 +84,35 @@ class Game(QWidget):
 
         grid.addWidget(self.mtext_result, 0, 2, 3, 3)
         grid.addWidget(self.label_count, 3, 4, 1, 1)
+
+    def init_style(self):
+        self.set_button_style(self.start_button)
+        self.set_button_style(self.stop_button)
+        self.set_button_style(self.save_button)
+
+    @staticmethod
+    def set_button_style(obj):
+
+        obj.setStyleSheet('''
+                    QPushButton{
+                        color:black
+                        }
+                    QPushButton:hover{
+                        background-color:lightgreen
+                        }
+                    QPushButton{
+                        background-color:lightblue
+                        }
+                    QPushButton{
+                        border:2px
+                        }
+                    QPushButton{
+                        border-radius:10px
+                        }
+                    QPushButton{
+                        padding:2px 4px
+                        }
+                    ''')
 
     def bind_events(self):
         self.start_button.clicked.connect(self.on_click)
