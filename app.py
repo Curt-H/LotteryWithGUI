@@ -4,7 +4,7 @@ import sys
 import time
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIcon, QFont
+from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QTimer
 from model import Player
 from utils import log
@@ -69,25 +69,30 @@ class Game(QWidget):
             for l in label:
                 self.label_style(l)
 
+        logo = QPixmap('logo.png')
+        self.label_logo = QLabel('logo', self)
+        self.label_logo.setPixmap(logo)
+        self.label_logo.setAlignment(Qt.AlignCenter)
+
         self.mtext_result = QTextEdit(self)
         self.font_syle(self.mtext_result, font_size=16)
-        self.mtext_result.setReadOnly(True)
 
     def init_grid(self):
         grid = QGridLayout()
         self.setLayout(grid)
 
+        grid.addWidget(self.label_logo, 0, 0, 1, 3)
         for x in range(len(self.labels)):
             for y in range(len(self.labels[x])):
-                grid.addWidget(self.labels[x][y], x, y, 1, y + 1)
+                grid.addWidget(self.labels[x][y], x + 1, y, 1, y + 1)
 
-        grid.addWidget(self.start_button, 3, 0, 1, 1)
-        grid.addWidget(self.stop_button, 3, 1, 1, 1)
-        grid.addWidget(self.save_button, 3, 2, 1, 1)
-        grid.addWidget(self.reload_button, 3, 6, 1, 1)
+        grid.addWidget(self.start_button, 4, 0, 1, 1)
+        grid.addWidget(self.stop_button, 4, 1, 1, 1)
+        grid.addWidget(self.save_button, 4, 2, 1, 1)
+        grid.addWidget(self.reload_button, 4, 6, 1, 1)
 
-        grid.addWidget(self.mtext_result, 0, 3, 3, 4)
-        grid.addWidget(self.label_count, 3, 3, 1, 3)
+        grid.addWidget(self.mtext_result, 0, 3, 4, 4)
+        grid.addWidget(self.label_count, 4, 3, 1, 3)
 
     def init_style(self):
         self.setStyleSheet('''
