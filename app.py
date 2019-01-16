@@ -48,6 +48,9 @@ class Game(QWidget):
         self.save_button = QPushButton('保存', self)
         self.font_syle(self.save_button)
 
+        self.reload_button = QPushButton('重载数据', self)
+        self.font_syle(self.reload_button)
+
         self.label_count = QLabel(f'已选出{self.counter}位', self)
         self.label_style(self.label_count)
 
@@ -81,9 +84,10 @@ class Game(QWidget):
         grid.addWidget(self.start_button, 3, 0, 1, 1)
         grid.addWidget(self.stop_button, 3, 1, 1, 1)
         grid.addWidget(self.save_button, 3, 2, 1, 1)
+        grid.addWidget(self.reload_button, 3, 6, 1, 1)
 
         grid.addWidget(self.mtext_result, 0, 3, 3, 4)
-        grid.addWidget(self.label_count, 3, 4, 1, 1)
+        grid.addWidget(self.label_count, 3, 3, 1, 3)
 
     def init_style(self):
         self.setStyleSheet('''
