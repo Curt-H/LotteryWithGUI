@@ -102,9 +102,15 @@ class Game(QWidget):
                     QPushButton{
                         border-radius:10px
                         }
+                    QWidget{
+                        background-color:white;
+                        border:1px solid darkGray;
+                        border-radius:10px;
+                        }
                     QPushButton{
                         padding:2px 4px
                         }
+      
                     ''')
 
     def bind_events(self):
