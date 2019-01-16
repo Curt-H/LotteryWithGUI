@@ -1,4 +1,5 @@
 import csv
+import os
 import random
 import sys
 import time
@@ -134,6 +135,10 @@ class Game(QWidget):
         self.reload_button.clicked.connect(self.reload)
 
     def load_data(self):
+        if not os.path.exists('namelist.csv'):
+            msg = QMessageBox.question(self, "警告", "未找到namelist.csv", QMessageBox.Yes | QMessageBox.No,
+                                       QMessageBox.No)  # 这里是固定格式，yes/no不能动
+            return msg
         with open('namelist.csv', 'r', encoding='utf-8-sig') as f:
             lines = csv.reader(f)
             self.namelist = []
