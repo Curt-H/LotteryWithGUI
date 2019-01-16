@@ -20,6 +20,7 @@ class Game(QWidget):
 
     def init_ui(self):
         self.resize(900, 600)
+        self.setFixedSize(900, 600)
         self.center()
         self.setWindowTitle('抽奖程序')
         self.setWindowIcon(QIcon('web.png'))
@@ -57,9 +58,9 @@ class Game(QWidget):
         self.label_title_id = QLabel('工号', self)
         self.label_title_name = QLabel('姓名', self)
         self.label_title_depart = QLabel('部门', self)
-        self.label_id = QLabel('工号', self)
-        self.label_name = QLabel('姓名', self)
-        self.label_depart = QLabel('部门', self)
+        self.label_id = QLabel('', self)
+        self.label_name = QLabel('', self)
+        self.label_depart = QLabel('', self)
         self.labels = [
             (self.label_title_id, self.label_id),
             (self.label_title_name, self.label_name),
@@ -97,7 +98,7 @@ class Game(QWidget):
     def init_style(self):
         self.setStyleSheet('''
                     QWidget{
-                        background-color:rgb(61, 79, 93);
+                        background-color:white;
                         border-radius:10px;
                         }
                     QPushButton{
@@ -120,9 +121,9 @@ class Game(QWidget):
                         border: 1px solid;
                         border-radius:10px;
                         background-color:white;
+                        font-size: 1em;
                         }
                     QLabel{
-                        color:white;
                         }
                     ''')
 
