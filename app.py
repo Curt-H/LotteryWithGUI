@@ -104,7 +104,7 @@ class Game(QWidget):
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.setname)
             self.timer.start(100)
-        elif self.start_button.text() == '抽取':
+        elif self.start_button.text() == '抽取' and len(self.namelist) > 0:
             self.counter += 1
 
             text = self.mtext_result.toPlainText()
@@ -118,6 +118,8 @@ class Game(QWidget):
             for p in self.namelist:
                 if p.id == winner:
                     self.namelist.pop(self.namelist.index(p))
+        else:
+            pass
 
     def save_result(self):
         fn = str(time.time()) + '.csv'
@@ -139,6 +141,13 @@ class Game(QWidget):
         self.label_depart.setText('')
 
     def setname(self):
+        if len(self.namelist) == 0:
+            self.label_id.setText(f'结束')
+            self.label_name.setText(f'结束')
+            self.label_depart.setText(f'结束')
+
+            self.timer.stop()
+            return 0
         p = self.namelist[random.randint(0, len(self.namelist) - 1)]
         self.label_id.setText(f'{p.id}')
         self.label_name.setText(f'{p.name}')
