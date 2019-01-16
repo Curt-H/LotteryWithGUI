@@ -23,7 +23,7 @@ class Game(QWidget):
         self.setFixedSize(900, 600)
         self.center()
         self.setWindowTitle('抽奖程序')
-        self.setWindowIcon(QIcon('web.png'))
+        self.setWindowIcon(QIcon('ico.png'))
 
         self.init_widgets()
         self.init_grid()
