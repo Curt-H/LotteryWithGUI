@@ -86,14 +86,7 @@ class Game(QWidget):
         grid.addWidget(self.label_count, 3, 4, 1, 1)
 
     def init_style(self):
-        self.set_button_style(self.start_button)
-        self.set_button_style(self.stop_button)
-        self.set_button_style(self.save_button)
-
-    @staticmethod
-    def set_button_style(obj):
-
-        obj.setStyleSheet('''
+        self.setStyleSheet('''
                     QPushButton{
                         color:black
                         }
@@ -124,8 +117,10 @@ class Game(QWidget):
             lines = csv.reader(f)
             self.namelist = []
             for line in lines:
-                print(line)
-                self.namelist.append(Player(line[0], line[1], line[2]))
+                log(line)
+                log(len(line))
+                if not (len(line) > 3 and line[-1] != ''):
+                    self.namelist.append(Player(line[0], line[1], line[2]))
             print(self.namelist)
 
     def on_click(self):
