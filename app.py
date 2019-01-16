@@ -121,6 +121,7 @@ class Game(QWidget):
         self.start_button.clicked.connect(self.on_click)
         self.stop_button.clicked.connect(self.set_zero)
         self.save_button.clicked.connect(self.save_result)
+        self.reload_button.clicked.connect(self.reload)
 
     def load_data(self):
         with open('namelist.csv', 'r', encoding='utf-8-sig') as f:
@@ -190,6 +191,14 @@ class Game(QWidget):
         self.label_id.setText(f'{p.id}')
         self.label_name.setText(f'{p.name}')
         self.label_depart.setText(f'{p.depart}')
+
+    def reload(self):
+        msg = QMessageBox.question(self, "警告", "重载数据后, 抽奖必须重新开始, 确认重载?", QMessageBox.Yes | QMessageBox.No,
+                                   QMessageBox.No)  # 这里是固定格式，yes/no不能动
+        if msg == QMessageBox.Yes:
+            self.namelist = []
+            self.load_data()
+            self.set_zero()
 
     @staticmethod
     def label_style(label):
