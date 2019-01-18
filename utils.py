@@ -13,7 +13,7 @@ def log(*args, **kwargs):
     localtime = time.localtime(int(time.time()))
     formatted = time.strftime(time_format, localtime)
 
-    with open('log.gua.txt', 'a', encoding='utf-8') as f:
+    with open('log.txt', 'a', encoding='utf-8') as f:
         # 时间和log内容分开, 并且加上分隔符号
         print(f'{formatted}')
         print(*args, **kwargs, sep='\n')

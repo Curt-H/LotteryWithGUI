@@ -4,4 +4,3 @@ class Player(object):
         self.name = name
         self.depart = depart
         self.win = False
-
