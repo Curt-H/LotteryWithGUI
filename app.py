@@ -20,8 +20,12 @@ class Game(QWidget):
         self.init_ui()
 
     def init_ui(self):
+        """
+        A procedure, Create main window and bind widgets and event
+        :return:
+        """
         self.resize(900, 600)
-        self.setFixedSize(900, 600)
+        self.setFixedSize(900, 600)  # Changing window size is not allowed
         self.center()
         self.setWindowTitle('抽奖程序')
         self.setWindowIcon(QIcon('ico.png'))
@@ -35,12 +39,20 @@ class Game(QWidget):
         self.show()
 
     def center(self):
+        """
+        Set window at the center of screen
+        :return:
+        """
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
     def init_widgets(self):
+        """
+        Create widgets and initialize their attribute(style)
+        :return:
+        """
         self.start_button = QPushButton('开始', self)
         self.font_syle(self.start_button)
 
@@ -80,6 +92,10 @@ class Game(QWidget):
         self.font_syle(self.mtext_result, font_size=16)
 
     def init_grid(self):
+        """
+        init layout, this programme uses grid layout
+        :return:
+        """
         grid = QGridLayout()
         self.setLayout(grid)
 
@@ -97,6 +113,10 @@ class Game(QWidget):
         grid.addWidget(self.label_count, 4, 3, 1, 3)
 
     def init_style(self):
+        """
+        use QSS to set widgets style
+        :return:
+        """
         self.setStyleSheet('''
                     QWidget{
                         background-color:white;
@@ -129,12 +149,20 @@ class Game(QWidget):
                     ''')
 
     def bind_events(self):
+        """
+        all events binding should use this function
+        :return:
+        """
         self.start_button.clicked.connect(self.on_click)
         self.stop_button.clicked.connect(self.reset)
         self.save_button.clicked.connect(self.save_result)
         self.reload_button.clicked.connect(self.reload)
 
     def load_data(self):
+        """
+        from namelist.csv load data, if encoding get wrong, try to change form ut8-sig to utf-8
+        :return:
+        """
         if not os.path.exists('namelist.csv'):
             msg = QMessageBox.question(self, "警告", "未找到namelist.csv", QMessageBox.Yes | QMessageBox.No,
                                        QMessageBox.No)  # 这里是固定格式，yes/no不能动
@@ -150,40 +178,61 @@ class Game(QWidget):
             # print(self.namelist)
 
     def on_click(self):
+        """
+        action for start button. if not starting then start timer,
+        or select the lucky dog
+        :return:
+        """
         if self.start_button.text() == '开始':
             self.start_button.setText('抽取')
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.setname)
-            self.timer.start(10)
+            self.timer.start(10)  # set timer check 1 time per 10 ms
             return 0
 
+        # if namelist is clear, then quit
         if len(self.namelist) == 0:
             return 0
 
         if self.start_button.text() == '抽取' and len(self.namelist) > 0:
             self.counter += 1
 
+            # load the infor label's text as the lucky dog
             text = self.mtext_result.toPlainText()
             infor_labels = [self.label_id.text(), self.label_name.text(), self.label_depart.text()]
             text = '\t'.join(infor_labels) + '\n' + text
-            winner = infor_labels[0]
-            log(text, winner)
             self.mtext_result.setPlainText(text)
 
+            # record the ID of the lucky one
+            winner = infor_labels[0]
+            # log(text, winner)
+
+            # kick the one out of the list
             self.label_count.setText(f'已选出{self.counter}位')
             for p in self.namelist:
                 if p.id == winner:
                     self.namelist.pop(self.namelist.index(p))
 
     def save_result(self):
-        fn = str(time.time()) + '.csv'
+        """
+        save the name list to a csv file
+        :return:
+        """
+        # use pc time as filename
+        fn = str(int(time.time())) + '.csv'
         with open(fn, 'w', encoding='utf-8-sig') as f:
             result = self.mtext_result.toPlainText()
+
+            # remember to change the \t to ',' or excel cannot recognize the row
             result = result.replace('\t', ',')
             f.write(result)
-        log('Successfully import')
+        # log('Successfully import')
 
     def reset(self):
+        """
+        reset button events
+        :return:
+        """
         self.set_zero()
         self.timer.stop()
 
@@ -217,7 +266,7 @@ class Game(QWidget):
             self.load_data()
             self.set_zero()
 
-    @staticmethod
+    @staticmethod 
     def label_style(label):
         label.setAlignment(Qt.AlignCenter)
         label.setFont(QFont("微软雅黑", 20, QFont.Bold))
