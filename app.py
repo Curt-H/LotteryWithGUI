@@ -167,7 +167,7 @@ class Game(QWidget):
             msg = QMessageBox.question(self, "警告", "未找到namelist.csv", QMessageBox.Yes | QMessageBox.No,
                                        QMessageBox.No)  # 这里是固定格式，yes/no不能动
             return msg
-        with open('namelist.csv', 'r', encoding='utf-8-sig') as f:
+        with open('namelist.csv', 'r') as f:
             lines = csv.reader(f)
             self.namelist = []
             for line in lines:
@@ -200,7 +200,7 @@ class Game(QWidget):
             # load the infor label's text as the lucky dog
             text = self.mtext_result.toPlainText()
             infor_labels = [self.label_id.text(), self.label_name.text(), self.label_depart.text()]
-            text = '\t'.join(infor_labels) + '\n' + text
+            text = '    '.join(infor_labels) + '\n' + text
             self.mtext_result.setPlainText(text)
 
             # record the ID of the lucky one
@@ -224,7 +224,7 @@ class Game(QWidget):
             result = self.mtext_result.toPlainText()
 
             # remember to change the \t to ',' or excel cannot recognize the row
-            result = result.replace('\t', ',')
+            result = result.replace('    ', ',')
             f.write(result)
         # log('Successfully import')
 
@@ -266,7 +266,7 @@ class Game(QWidget):
             self.load_data()
             self.set_zero()
 
-    @staticmethod 
+    @staticmethod
     def label_style(label):
         label.setAlignment(Qt.AlignCenter)
         label.setFont(QFont("微软雅黑", 20, QFont.Bold))
